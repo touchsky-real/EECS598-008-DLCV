@@ -181,7 +181,7 @@ def get_fpn_location_coords(
         rows = rows.expand(feat_shape[2], feat_shape[3]).t()
         cols = level_stride * (torch.arange(feat_shape[3], dtype=dtype, device=device) + 0.5)
         cols = cols.expand(feat_shape[2], feat_shape[3])
-        location_coords[level_name] = torch.stack((cols, rows), dim=2).flatten(end_dim=1)
+        location_coords[level_name] = torch.stack((cols, rows), dim=2).permute(1, 0, 2).flatten(end_dim=1)
         ######################################################################
         #                             END OF YOUR CODE                       #
         ######################################################################
