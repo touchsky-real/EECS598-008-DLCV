@@ -169,19 +169,11 @@ def get_fpn_location_coords(
         ######################################################################
         # TODO: Implement logic to get location co-ordinates below.          #
         ######################################################################
-        # Replace "pass" statement with your code
-        # temp = torch.zeros(feat_shape[2], feat_shape[3], 2, dtype=dtype, device=device)
-        # for i in range(temp.shape[0]):
-        #   for j in range(temp.shape[1]):
-        #     temp[i, j, 0] = level_stride * (i+0.5)
-        #     temp[i, j, 1] = level_stride * (j+0.5)
-
-        # location_coords[level_name] = temp.flatten(end_dim=1)
         rows = level_stride * (torch.arange(feat_shape[2], dtype=dtype, device=device) + 0.5)
         rows = rows.expand(feat_shape[2], feat_shape[3]).t()
         cols = level_stride * (torch.arange(feat_shape[3], dtype=dtype, device=device) + 0.5)
         cols = cols.expand(feat_shape[2], feat_shape[3])
-        location_coords[level_name] = torch.stack((cols, rows), dim=2).flatten(end_dim=1)
+        location_coords[level_name] = torch.stack((cols, rows), dim=2).permute(1, 0, 2).flatten(end_dim=1)
         ######################################################################
         #                             END OF YOUR CODE                       #
         ######################################################################
